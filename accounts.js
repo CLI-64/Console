@@ -20,6 +20,5 @@ accounts.statics.authenticateBasic = async function (username, password) {
   throw new Error('THIS IS WHAT TRIGGERS ERROR FOR CATCH STATEMENT');
 }
 
-
 module.exports = mongoose.model('accounts', accounts)
 

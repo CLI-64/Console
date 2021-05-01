@@ -2,6 +2,15 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const io = require('socket.io')(PORT);
 
+// Database Connection
+const mongoose = require('mongoose');
+const MONGODB_URI = process.env.MONGODB_URI;
+const options = { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true
+};
+mongoose.connect(MONGODB_URI, options)
+
 // const Player = require('./player.js')
 // creates new namespace
 
@@ -29,15 +38,15 @@ io.on('connection', (socket) => {
   // io.to('hangman').on('play', payload)
 })
 
-  socket.on('login', (payload) => {
-    // Authenticates
+  // socket.on('login', (payload) => {
+  //   Authenticates
     
-    // let user = login(payload)
-    // while(!user){
-    //   user = login(payload)
-    // }
-    // console.log(`Welcome Back ${username}`)
-  })
+  //   let user = login(payload)
+  //   while(!user){
+  //     user = login(payload)
+  //   }
+  //   console.log(`Welcome Back ${username}`)
+  // })
 
 
 // io.on('login', (payload) => {
