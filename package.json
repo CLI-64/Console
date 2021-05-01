@@ -1,0 +1,29 @@
+{
+  "name": "CLI-64-Console",
+  "version": "1.0.0",
+  "description": "## Davion Garcia, Kale Lesko, Jenner Dulce, Ryan Tipper, Dawit Ayana",
+  "main": "accounts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CLI-64/CLI-64-Console.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CLI-64/CLI-64-Console/issues"
+  },
+  "homepage": "https://github.com/CLI-64/CLI-64-Console#readme",
+  "dependencies": {
+    "base-64": "^1.0.0",
+    "chalk": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "readline": "^1.3.0",
+    "repl": "^0.1.3",
+    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1"
+  }
+}
