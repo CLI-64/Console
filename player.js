@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const base64 = require('base-64');
 const chalk = require('chalk')
 const readline = require('readline');
-const Account = require('./mongoose.js')
+const basicAuth = require('./basicAuth.js')
+const Account = require('./accounts.js')
+const Mongoose = require('./mongoose.js')
 // const basicAuth = require('basicAuth')
 
 const host = 'http://localhost:3333';
@@ -17,15 +19,20 @@ const rl = readline.createInterface({
 // socket.on('connect', () => {
 //   console.log('Connected to CHATROOM');
 
+// LOGIN
 // Prompt for 1 ) 'Existing User' or 2 ) 'Create new user'
 rl.question("Welcome to CLI-64 \n 1) Existing User \n 2) Create New User \n", (payload) => {
   // Existing User
   if (payload === '1') {
-    rl.question("Enter your username with 'username:password' format.", (accountInfo) => {
+    rl.question("Enter your username with 'username:password' format.", async (accountInfo) => {
       let userInformation = base64.encode(accountInfo)
-      basicAuth(userInformation)
+      let accountVerification = await basicAuth(`Basic ${userInformation}`)
+      if (!accountVerification) {
+        rl.close();
+      } else {
+        console.log(`Welcome ${accountVerification.username}!`)
+      }
     })
-
     // Create New User
   } else if (payload === '2') {
     // Takes username and hashes password and stores in database
@@ -43,18 +50,20 @@ rl.question("Welcome to CLI-64 \n 1) Existing User \n 2) Create New User \n", (p
         })
     })
 
-
     // SIGN IN AFTER CREATING NEW USER
-    rl.question("Enter your username with 'username:password' format.", (accountInfo) => {
-      let userInformation = `Basic ${base64.encode(accountInfo)}`
-      basicAuth(userInformation)
+    rl.question("Enter your username with 'username:password' format.", async (accountInfo) => {
+      let userInformation = base64.encode(accountInfo)
+      let accountVerification = await basicAuth(`Basic ${userInformation}`)
+      if (!accountVerification) {
+        rl.close();
+      } else {
+        console.log(`Welcome ${accountVerification.username}!`)
+      }
     })
-  } else {
-    console.log('error')
   }
 });
 
-
+// AFTER SUCCESSFUL LOGIN
 rl.question("Which game do you want to play? ", (payload) => {
   if (payload === 'hangman') {
     socket.emit('enterHang', 'hangman')
@@ -68,3 +77,8 @@ rl.question("Which game do you want to play? ", (payload) => {
 function joinedRoom(payload) {
   console.log(payload)
 }
+
+rl.on("close", () => {
+  console.log("Thanks for playing, bye bye");
+  process.exit(0);
+});

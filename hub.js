@@ -2,32 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const io = require('socket.io')(PORT);
-
-// Database Connection
-// const options = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false,
-//   useCreateIndex: true
-// };
-
-// mongoose.connect('mongodb://localhost:27017/cliaccounts', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useFindAndModify: false,
-//   useCreateIndex: true
-// })
-//   .then((data) => {
-//     console.log(data)
-//     console.log('THIS IS CONNECTED TO MONGO')
-//   })
-
-// const account = new mongoose.Schema({
-//   username: { type: String, required: true, unique: true },
-//   password: { type: String, required: true }
-// });
-
-// let newAccount = mongoose.model('accounts', account)
+const Account = require('./accounts.js')
+const Mongoose = require('./mongoose.js')
 
 // const Player = require('./player.js')
 // creates new namespace
@@ -56,17 +32,6 @@ io.on('connection', (socket) => {
   // io.to('hangman').on('play', payload)
 })
 
-  // socket.on('login', (payload) => {
-  //   Authenticates
-
-  //   let user = login(payload)
-  //   while(!user){
-  //     user = login(payload)
-  //   }
-  //   console.log(`Welcome Back ${username}`)
-  // })
-
-
 // io.on('login', (payload) => {
 //   // Authenticates
 //   let user = login(payload)
@@ -75,5 +40,3 @@ io.on('connection', (socket) => {
 //   }
 //   console.log(`Welcome Back ${username}`)
 // })
-
-// module.exports = newAccount;

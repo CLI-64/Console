@@ -11,13 +11,6 @@ mongoose.connect('mongodb://localhost:27017/cliaccounts', {
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true
+}).then((data) =>{
+  console.log('Connected to Database')
 })
-
-const account = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-});
-
-let newAccount = mongoose.model('accounts', account)
-
-module.exports = newAccount;
