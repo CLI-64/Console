@@ -8,8 +8,10 @@
 - `base-64`
 - `chalk`
 
-## White board
+## [Wirefrrame ](https://miro.com/app/board/o9J_lIOTDIw=/?moveToWidget=3074457358291561544&cot=14)
 
-![UML](./assets/logic1.PNG)
-![UML](./assets/logic2.PNG)
-![UML](./assets/logic3.PNG)
+## [User Stories](https://docs.google.com/document/d/1d6HvZM9v-zSnVJIhHfaVVuOr03jaYJIHcZDwWnwsrwM/edit?usp=sharing)
+
+## Domain Model
+
+- ![WireFrame](./Wireframe-Midterm.jpg)
