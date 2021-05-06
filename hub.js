@@ -42,16 +42,13 @@ io.on('connection', (socket) => {
   // io.to('hangman').emit('play', payload)
   // io.to('hangman').on('play', payload)
 
-  socket.on('message', payload => {
+  socket.on('play', payload => {
     console.log(payload)
+    if (payload.split('\n')[0] === 'start'){
+      // Parameters to start game
+      socket.emit('runGame', socket)
+    }
+    socket.broadcast.emit('play', payload)
+    // Run the game
   })
 })
-
-// io.on('login', (payload) => {
-//   // Authenticates
-//   let user = login(payload)
-//   while(!user){
-//     user = login(payload)
-//   }
-//   console.log(`Welcome Back ${username}`)
-// })
