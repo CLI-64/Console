@@ -167,15 +167,17 @@ main()
 //   })
 // }
 
-// const question2 = () => {
-//   return new Promise((resolve, reject) => {
-//     rl.question("Favorit food", (payload) => {
+const question2 = () => {
+  return new Promise((resolve, reject) => {
+    rl.question("Favorit food", (payload) => {
 
-//       resolve()
-//       return payload
-//     })
-//   })
-// }
+      resolve()
+      return payload
+    })
+  })
+}
+
+// sushi
 
 // const main = async () => {
 //   let values = await question1()
