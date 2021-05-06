@@ -7,6 +7,7 @@ const readline = require('readline');
 const basicAuth = require('./basicAuth.js')
 const Account = require('./accounts.js')
 const Mongoose = require('./mongoose.js')
+// import game
 
 let playerName;
 
@@ -87,7 +88,12 @@ const chooseGame = () => {
           prompt: ``,
           eval: (text) => {
             // emits message events
-            socket.emit('play', text)
+            let userData = {
+              text: text,
+              playerName: playerName
+            }
+            process.stdout.write('\u001b[1F');
+            socket.emit('play', userData)
           },
         })
         socket.emit('enterHang', roomData)
@@ -109,18 +115,20 @@ const main = async () => {
 
 main()
 
-// function playHandler(payload) {
-//   console.log(payload)
-//   //read line
-//   rl.question("", (payload) => {
-//     // Send event to the hub to start the game
-//     socket.emit('play', payload)
-//   })
-// }
-
 socket.on('play', payload => {
-  console.log(payload)
+  if(payload.text){
+    const text = payload.text;
+    const playerName = payload.playerName;
+    console.log(chalk.green(`[${payload.playerName}] ${text.split('\n')[0]}`))
+  } else {
+    console.log(payload.split('\n')[0])
+  }
 })
+
+socket.on('clear', payload => {
+  process.stdout.write('\x1B[2J');
+})
+
 function joinedRoom(payload) {
   console.log(payload)
 }

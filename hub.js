@@ -2,15 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const io = require('socket.io')(PORT);
-const Player = require('./newplayer.js')
 const Account = require('./accounts.js')
 const Mongoose = require('./mongoose.js')
-const players = {
-  // this is where players are listed
-}
-
-// const Player = require('./player.js')
-// creates new namespace
 
 console.log('HUB UP AND RUNNING...')
 
@@ -19,11 +12,8 @@ io.on('connection', (socket) => {
 
   // Add new player
   socket.on('newPlayer', payload => {
+    console.log(`Within newPlayer even: payload = ${payload}`)
     socket.broadcast.emit('joined', payload)
-    socket.emit('joined', payload)
-    // adds new player
-    players[payload] = new Player(payload)
-    console.log(players)
   })
 
   socket.on('enterType', (payload) => {
@@ -43,12 +33,17 @@ io.on('connection', (socket) => {
   // io.to('hangman').on('play', payload)
 
   socket.on('play', payload => {
-    console.log(payload)
-    if (payload.split('\n')[0] === 'start'){
-      // Parameters to start game
-      socket.emit('runGame', socket)
-    }
+    socket.emit('play', payload)
     socket.broadcast.emit('play', payload)
-    // Run the game
+    if(payload.text){
+      if(payload.text.split('\n')[0] === 'start'){
+        socket.broadcast.emit('runGame')
+      } 
+    }
+  })
+
+  socket.on('clear', payload => {
+    socket.emit('clear', payload)
+    socket.broadcast.emit('clear', payload)
   })
 })
