@@ -75,6 +75,21 @@ const question1 = () => {
   })
 }
 
+// const startREPL = () => {
+//   repl.start({
+//     prompt: ``,
+//     eval: (text) => {
+//       // emits message events
+//       let userData = {
+//         text: text,
+//         playerName: playerName
+//       }
+//       process.stdout.write('\u001b[1F');
+//       socket.emit('play', userData)
+//     },
+//   })
+// }
+
 const chooseGame = () => {
   return new Promise((resolve, reject) => {
     rl.question("Which game do you want to play? ", (payload) => {
@@ -116,7 +131,7 @@ const main = async () => {
 main()
 
 socket.on('play', payload => {
-  if(payload.text){
+  if (payload.text) {
     const text = payload.text;
     const playerName = payload.playerName;
     console.log(chalk.green(`[${payload.playerName}] ${text.split('\n')[0]}`))
