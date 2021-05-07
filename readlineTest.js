@@ -152,20 +152,40 @@ main()
 
 
 // ==============================================
-// const question1 = () => {
-//   return new Promise((resolve, reject) => {
 
-//     rl.question("Enter first Number", (payload) => {
-//       rl.question("Enter your username", (accountInfo) => {
-//         rl.question("Enter your birth month", (month) => {
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+var passwordrl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+passwordrl.stdoutMuted = true;
+
+passwordrl._writeToOutput = function _writeToOutput(stringToWrite) {
+  if (passwordrl.stdoutMuted)
+    passwordrl.output.write("*");
+  else
+    passwordrl.output.write(stringToWrite);
+};
 
 
-//           resolve()
-//         })
-//       })
-//     })
-//   })
-// }
+
+const question1 = () => {
+  return new Promise((resolve, reject) => {
+
+    rl.question("Enter Username", (username) => {
+      rl.question("Enter Password", (password) => {
+        let user = `${username}:${password}`
+        console.log(user)
+      })
+    })
+  })
+}
 
 const question2 = () => {
   return new Promise((resolve, reject) => {
