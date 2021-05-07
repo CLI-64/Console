@@ -13,43 +13,43 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+rl.stdoutMuted = true;
+
 // socket.on('connect', () => {
 //   console.log('Connected to CHATROOM');
 
 // Prompt for 1 ) 'Existing User' or 2 ) 'Create new user'
-rl.question("Welcome to CLI-64 \n 1) Existing User \n 2) Create New User \n", (payload) => {
+rl.question("Welcome to CLI-64 \n 1) Existing User \n 2) Create New User \n", async (payload) => {
   // Existing User
   if (payload === '1') {
-    rl.question("Enter your username with 'username:password' format.", (accountInfo) => {
-      let userInformation = base64.encode(accountInfo)
-      basicAuth(userInformation)
-    })
-
+    _existingUser()
     // Create New User
   } else if (payload === '2') {
     // Takes username and hashes password and stores in database
-    rl.question("Create a new account with the following format 'username:password '\n", async (accountInfo) => {
+    rl.question("Create a new account\nUsername: ", async (username) => {
       try {
-        let [username, password] = accountInfo.split(':')
-        let account = await new Account({
-          'username': username,
-          'password': password
+        rl.query = "Enter Password: ";
+        rl.question(rl.query, async (password) => {
+          let account = await new Account({
+            'username': username,
+            'password': password
+          })          
+          console.log('this is Account', account)
+          let newUser = await account.save()
+          console.log(`Account ${newUser} successfully created`)
         })
-        console.log('this is Account', account)
-        let newUser = await account.save()
-        
-        console.log(`Account ${newUser} successfully created`)
-      } catch(e){
+        rl._writeToOutput = (stringToWrite) => {
+          if (rl.stdoutMuted)
+            rl.output.write("*");
+          else
+            rl.output.write(stringToWrite);
+        };
+      } catch (e) {
         console.log(e)
       }
     })
-
-
     // SIGN IN AFTER CREATING NEW USER
-    rl.question("Enter your username with 'username:password' format.", (accountInfo) => {
-      let userInformation = `Basic ${base64.encode(accountInfo)}`
-      basicAuth(userInformation)
-    })
+    _existingUser()
   } else {
     console.log('error')
   }
@@ -68,4 +68,24 @@ rl.question("Which game do you want to play? ", (payload) => {
 
 function joinedRoom(payload) {
   console.log(payload)
+}
+
+function _existingUser() {
+  rl.question("Enter Username: ", (username) => {
+    rl.query = "Enter Password: ";
+    rl.question(rl.query, (password) => {
+
+      let user = `${username}:${password}`
+      console.log(`\n${user}`)
+
+      let userInformation = base64.encode(user)
+      basicAuth(userInformation)
+    })
+    rl._writeToOutput = (stringToWrite) => {
+      if (rl.stdoutMuted)
+        rl.output.write("*");
+      else
+        rl.output.write(stringToWrite);
+    };
+  })
 }
