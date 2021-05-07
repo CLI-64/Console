@@ -27,3 +27,11 @@
 - REPL Art
 - Winner Animation
 - More games
+
+
+
+### NOTES
+- Enter wrong user information (need to come up with a while loop that allows the user to get prompted again with either create or login, options 1/2 again)
+- Which game do you want to play prompt -- remove this + the room architecture? The rooms really arent doing anything since the game is already "plugged in" and ready to go, like a ROM.
+- Hangman -- still need to finalize up turn-base (game logic nearing completion)
+- Login password encryption within the terminal ex. *****
