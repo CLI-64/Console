@@ -110,16 +110,12 @@ socket.on('insert cartridge', () => {
   socket.emit('newPlayer', playerName)
 })
 
-
-function joinedRoom(payload) {
-  console.log(payload)
-}
-
 // Clears Console
 socket.on('clear', payload => {
   process.stdout.write('\x1B[2J');
 })
 
+// Closes Readline in order to start REPL 
 rl.on("close", () => {
 
 });
