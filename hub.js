@@ -12,26 +12,15 @@ io.on('connection', (socket) => {
 
   // Add new player
   socket.on('newPlayer', payload => {
-    console.log(`Within newPlayer even: payload = ${payload}`)
-    socket.broadcast.emit('joined', payload)
+    socket.broadcast.emit('newPlayer', payload)
   })
 
-  socket.on('enterType', (payload) => {
-    // Join TypeRacer room
-    socket.join(payload)
-    io.to('typeracer').emit('hello', `${payload.playerName} has joined the TypeRacer Room`)
+  // Alerts when new cartridge has been inserted
+  socket.on('insert cartridge', () => {
+    socket.broadcast.emit('insert cartridge')
   })
-  // io.to('typeracer').emit('play', payload)
-  // io.to('typeracer').on('play', payload)
 
-  socket.on('enterHang', (payload) => {
-    // whoever file emits this listener, joins the channel they pass as an argument
-    socket.join(payload.gameChoice) // socket.join('hangman') 
-    io.to('hangman').emit('hello', `${payload.playerName} has joined the Hangman Room`)
-  })
-  // io.to('hangman').emit('play', payload)
-  // io.to('hangman').on('play', payload)
-
+ 
   socket.on('play', payload => {
     socket.emit('play', payload)
     socket.broadcast.emit('play', payload)
@@ -45,5 +34,10 @@ io.on('connection', (socket) => {
   socket.on('clear', payload => {
     socket.emit('clear', payload)
     socket.broadcast.emit('clear', payload)
+  })
+
+  socket.on('disconnect', payload => {
+    socket.emit('clear', 'x')
+    socket.broadcast.emit('clear', 'x')
   })
 })
