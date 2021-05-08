@@ -35,8 +35,7 @@ const question1 = () => {
             // Sets the username to playerName
             playerName = accountVerification.username
             console.log(`Welcome ${accountVerification.username}!`)
-            // Adds player to the list of players on the hub
-            socket.emit('newPlayer', accountVerification.username)
+            rl.close()
           }
           resolve()
         })
@@ -65,6 +64,7 @@ const question1 = () => {
                 console.log('Connected to CHATROOM');
                 // make new player
                 socket.emit('newPlayer', accountVerification.username)
+                rl.close()
               })
             }
             resolve()
@@ -75,61 +75,25 @@ const question1 = () => {
   })
 }
 
-// const startREPL = () => {
-//   repl.start({
-//     prompt: ``,
-//     eval: (text) => {
-//       // emits message events
-//       let userData = {
-//         text: text,
-//         playerName: playerName
-//       }
-//       process.stdout.write('\u001b[1F');
-//       socket.emit('play', userData)
-//     },
-//   })
-// }
-
-const chooseGame = () => {
-  return new Promise((resolve, reject) => {
-    rl.question("Which game do you want to play? ", (payload) => {
-      let roomData = {
-        gameChoice: payload,
-        playerName: playerName
-      }
-      if (payload === 'hangman') {
-        rl.close()
-        repl.start({
-          prompt: ``,
-          eval: (text) => {
-            // emits message events
-            let userData = {
-              text: text,
-              playerName: playerName
-            }
-            process.stdout.write('\u001b[1F');
-            socket.emit('play', userData)
-          },
-        })
-        socket.emit('enterHang', roomData)
-        socket.on('hello', joinedRoom)
-
-        resolve()
-      } else if (payload === 'typeracer') {
-        socket.emit('enterType', roomData)
-        socket.on('hello', joinedRoom)
-        resolve()
-      }
-    })
-  })
-}
 const main = async () => {
   await question1()
-  await chooseGame()
+  repl.start({
+    prompt: ``,
+    eval: (text) => {
+      // emits message events
+      let userData = {
+        text: text,
+        playerName: playerName
+      }
+      process.stdout.write('\u001b[1F');
+      socket.emit('play', userData)
+    },
+  })
 }
 
 main()
 
+ // Information is passed back and forth from this socket
 socket.on('play', payload => {
   if (payload.text) {
     const text = payload.text;
@@ -140,13 +104,21 @@ socket.on('play', payload => {
   }
 })
 
-socket.on('clear', payload => {
-  process.stdout.write('\x1B[2J');
+socket.on('insert cartridge', () => {
+  // Adds player to the list of players on the game
+  // Allows players to be added on game insert and start
+  socket.emit('newPlayer', playerName)
 })
+
 
 function joinedRoom(payload) {
   console.log(payload)
 }
+
+// Clears Console
+socket.on('clear', payload => {
+  process.stdout.write('\x1B[2J');
+})
 
 rl.on("close", () => {
 
