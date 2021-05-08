@@ -1,9 +1,10 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3333;
+console.log(PORT)
 const io = require('socket.io')(PORT);
-const Account = require('./accounts.js')
-const Mongoose = require('./mongoose.js')
+const Account = require('./model/accounts.js')
+const Mongoose = require('./model/mongoose.js')
 
 console.log('HUB UP AND RUNNING...')
 
