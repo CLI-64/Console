@@ -1,4 +1,6 @@
-const Account = require('./accounts.js')
+'use strict';
+
+const Account = require('../src/middleware/accounts.js')
 const mongoose = require('mongoose');
 
 const user = {

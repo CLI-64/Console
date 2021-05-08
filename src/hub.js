@@ -37,12 +37,13 @@ console.log('HUB UP AND RUNNING...')
 // io is the main socket
 io.on('connection', (socket) => {
   console.log(`${socket.id} HAS CONNECTED`)
+  logger(payload);
 
   socket.on('enterType', (payload) => {
     // whoever file emits this listener, joins the channel they pass as an argument
     socket.join(payload)
     io.to('typeracer').emit('hello', 'HELLO WORLD, TYPERACER GAME')
-  })
+  });
   // io.to('typeracer').emit('play', payload)
   // io.to('typeracer').on('play', payload)
 
@@ -50,21 +51,31 @@ io.on('connection', (socket) => {
     // whoever file emits this listener, joins the channel they pass as an argument
     socket.join(payload) // socket.join('hangman') 
     io.to('hangman').emit('hello', 'HELLO WORLD, HANGMAN GAME')
-  })
+    logger(payload);
+  });
+
+  function logger(payload) {
+    console.log({ payload }),
+
+      next();
+  };
+
+  module.exports = logger;
 
   // io.to('hangman').emit('play', payload)
   // io.to('hangman').on('play', payload)
 })
 
-  // socket.on('login', (payload) => {
-  //   Authenticates
 
-  //   let user = login(payload)
-  //   while(!user){
-  //     user = login(payload)
-  //   }
-  //   console.log(`Welcome Back ${username}`)
-  // })
+// socket.on('login', (payload) => {
+//   Authenticates
+
+//   let user = login(payload)
+//   while(!user){
+//     user = login(payload)
+//   }
+//   console.log(`Welcome Back ${username}`)
+// })
 
 
 // io.on('login', (payload) => {
