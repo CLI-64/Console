@@ -1,60 +1,43 @@
 require('dotenv').config();
+const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const io = require('socket.io')(PORT);
-
-// Database Connection
-const mongoose = require('mongoose');
-const MONGODB_URI = process.env.MONGODB_URI;
-const options = { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true
-};
-mongoose.connect(MONGODB_URI, options)
-
-// const Player = require('./player.js')
-// creates new namespace
+const Account = require('./accounts.js')
+const Mongoose = require('./mongoose.js')
 
 console.log('HUB UP AND RUNNING...')
 
-// io is the main socket
 io.on('connection', (socket) => {
   console.log(`${socket.id} HAS CONNECTED`)
 
-  socket.on('enterType', (payload) => {
-    // whoever file emits this listener, joins the channel they pass as an argument
-    socket.join(payload)
-    io.to('typeracer').emit('hello', 'HELLO WORLD, TYPERACER GAME')
-  })
-  // io.to('typeracer').emit('play', payload)
-  // io.to('typeracer').on('play', payload)
-
-  socket.on('enterHang', (payload) => {
-    // whoever file emits this listener, joins the channel they pass as an argument
-    socket.join(payload) // socket.join('hangman') 
-    io.to('hangman').emit('hello', 'HELLO WORLD, HANGMAN GAME')
+  // Add new player
+  socket.on('newPlayer', payload => {
+    socket.broadcast.emit('newPlayer', payload)
   })
 
-  // io.to('hangman').emit('play', payload)
-  // io.to('hangman').on('play', payload)
+  // Alerts when new cartridge has been inserted
+  socket.on('insert cartridge', () => {
+    socket.broadcast.emit('insert cartridge')
+  })
+
+ 
+  socket.on('play', payload => {
+    socket.emit('play', payload)
+    socket.broadcast.emit('play', payload)
+    if(payload.text){
+      if(payload.text.split('\n')[0] === 'start'){
+        socket.broadcast.emit('runGame')
+      } 
+    }
+  })
+
+  socket.on('clear', payload => {
+    socket.emit('clear', payload)
+    socket.broadcast.emit('clear', payload)
+  })
+
+  socket.on('disconnect', payload => {
+    socket.emit('clear', 'x')
+    socket.broadcast.emit('clear', 'x')
+  })
 })
-
-  // socket.on('login', (payload) => {
-  //   Authenticates
-    
-  //   let user = login(payload)
-  //   while(!user){
-  //     user = login(payload)
-  //   }
-  //   console.log(`Welcome Back ${username}`)
-  // })
-
-
-// io.on('login', (payload) => {
-//   // Authenticates
-//   let user = login(payload)
-//   while(!user){
-//     user = login(payload)
-//   }
-//   console.log(`Welcome Back ${username}`)
-// })
-
