@@ -1,4 +1,4 @@
-const io = require('socket.io-client');
+
 const repl = require('repl');
 const mongoose = require('mongoose');
 const base64 = require('base-64');
@@ -7,19 +7,21 @@ const readline = require('readline');
 const basicAuth = require('./auth/basicAuth.js')
 const Account = require('./model/accounts.js')
 const Mongoose = require('./model/mongoose.js')
-let playerName;
-// const host = 'http://4eaf322577d9.ngrok.io';
+const io = require('socket.io-client');
 const host = 'http://localhost:3333';
+// const host = 'http://4eaf322577d9.ngrok.io';
 const socket = io.connect(host);
+
+let playerName;
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-
 rl.stdoutMuted = true;
 
 const question1 = () => {
   return new Promise((resolve, reject) => {
+    clearScreen();
     rl.question("Welcome to CLI-64 \n 1) Existing User \n 2) Create New User \n", async (payload) => {
       // Existing User
       if (payload === '1') {
@@ -35,10 +37,11 @@ const question1 = () => {
             } else {
               // Sets the username to playerName
               playerName = accountVerification.username
-              console.log(`\nWelcome ${accountVerification.username}!`)
+              clearScreen();
+              console.log('Connected to CLI-64');
+              console.log(`\nWelcome ${accountVerification.username}! Type to verify your connection`)
               rl.close()
               socket.on('connect', () => {
-                console.log('Connected to CHATROOM');
                 // make new player
                 socket.emit('newPlayer', accountVerification.username)
               })
@@ -65,7 +68,7 @@ const question1 = () => {
                 password: password
               })
               let newUser = account.save()
-              console.log(`newUser ${newUser} successfully created`)
+              console.log(`Account successfully created!`)
               rl.question("Enter Username: ", (username) => {
                 rl.query = "Enter Password: ";
                 rl.question(rl.query, async (password) => {
@@ -77,10 +80,11 @@ const question1 = () => {
                   } else {
                     // Sets the username to playerName
                     playerName = accountVerification.username
-                    console.log(`\nWelcome ${accountVerification.username}!`)
+                    clearScreen();
+                    console.log('Connected to CLI-64');
+                    console.log(`\nWelcome ${accountVerification.username}! Type to verify your connection`)
                     rl.close()
                     socket.on('connect', () => {
-                      console.log('Connected to CHATROOM');
                       // make new player
                       socket.emit('newPlayer', accountVerification.username)
                     })
@@ -122,6 +126,10 @@ const main = async () => {
 }
 
 main()
+
+function clearScreen() {
+  process.stdout.write('\x1B[2J');
+}
 
 // Information is passed back and forth from this socket
 socket.on('play', payload => {
