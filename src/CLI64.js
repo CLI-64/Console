@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3333;
 console.log(PORT)
+const logger = require('./auth/logger.js');
 const io = require('socket.io')(PORT);
 const Account = require('./model/accounts.js')
 const Mongoose = require('./model/mongoose.js')
@@ -9,7 +10,10 @@ const Mongoose = require('./model/mongoose.js')
 console.log('HUB UP AND RUNNING...')
 
 io.on('connection', (socket) => {
+  // socket.use(logger);
+  // console.log(`${socket.id} HAS CONNECTED`)
   console.log(`${socket.id} HAS CONNECTED`)
+
 
   // Add new player
   socket.on('newPlayer', payload => {
@@ -21,14 +25,14 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('insert cartridge')
   })
 
- 
+
   socket.on('play', payload => {
     socket.emit('play', payload)
     socket.broadcast.emit('play', payload)
-    if(payload.text){
-      if(payload.text.split('\n')[0] === 'start'){
+    if (payload.text) {
+      if (payload.text.split('\n')[0] === 'start') {
         socket.broadcast.emit('runGame')
-      } 
+      }
     }
   })
 
