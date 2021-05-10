@@ -1,17 +1,29 @@
 # requirements
 
-- `ngrok`
-- `socket.io`
-- `socket.io-client`
-- `node`
-- `.env`
-- `base-64`
-- `chalk`
+## Node Packages
 
-## [Wirefrrame ](https://miro.com/app/board/o9J_lIOTDIw=/?moveToWidget=3074457358291561544&cot=14)
+- Within the root directory install the following packages
+- npm i
+  - base-64
+  - bcrypt
+  - chalk
+  - dotenv
+  - mongoose
+  - readline
+  - repl
+  - socket.io
+  - socket.io-client
 
-## [User Stories](https://docs.google.com/document/d/1d6HvZM9v-zSnVJIhHfaVVuOr03jaYJIHcZDwWnwsrwM/edit?usp=sharing)
+## Mongoose Database
 
-## Domain Model
+- A connection to a mongoose database and mongoose schema
+- This is used to store account information
 
-- ![WireFrame](./Wireframe-Midterm.jpg)
+## .env file
+
+- This file is used to hide pertinent such as mongooseDB URI and PORT
+
+## Ngrok
+
+- Ngrok establishes connection to outlying devices/computers
+- The main user who runs the console should have ngrok. An URL will be then passed to other users to connect through the use of socket.io

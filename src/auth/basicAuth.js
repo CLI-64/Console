@@ -1,7 +1,7 @@
 'use strict';
 
 const base64 = require('base-64');
-const account = require('./accounts.js');
+const account = require('../model/accounts.js');
 
 module.exports = async (userInfo) => {
 
@@ -15,7 +15,6 @@ module.exports = async (userInfo) => {
     let currentUser = await account.authenticateBasic(user, pass);
     return currentUser;
   } catch (e) {
-    console.log('Wrong username or password.. Try Again..')
-    // console.log(e)
+    console.log('\nWrong username or password.. Try Again..')
   }
 }

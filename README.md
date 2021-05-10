@@ -12,7 +12,9 @@
 
 ### What problem or pain point does it solve?
 
-- This app was designed to build team relationships and help curb your code blocks. CLI-64  was made to be an after hours game for bringing coworkers together to unwind in a quiet and non-flashy environment that is CLI. Built with aims to bring joy into the workspace and to promote a means of healthy rest and reset during long work hours. 
+
+- This app was designed to build team relationships and help curb your code blocks. CLI-64  was made to be an after hours game for bringing coworkers together to unwind in a quiet and non-flashy environment that is CLI. Built with aims to bring joy into the workspace and to promote a means of healthy rest and reset during long work hours.
+
 
 ### Minimum Value Product
 

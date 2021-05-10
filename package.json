@@ -4,6 +4,7 @@
   "description": "## Davion Garcia, Kale Lesko, Jenner Dulce, Ryan Tipper, Dawit Ayana",
   "main": "accounts.js",
   "scripts": {
+    "start": "node CLI64.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
