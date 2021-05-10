@@ -1,3 +1,7 @@
+'use strict'
+
+require('dotenv').config();
+let MONGODB_URI = process.env.MONGODB_URI
 const mongoose = require('mongoose')
 const options = {
   useNewUrlParser: true,
@@ -6,11 +10,4 @@ const options = {
   useCreateIndex: true
 };
 
-mongoose.connect('mongodb+srv://jennercf:1234@cluster0.opm0b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
-}).then((data) =>{
-  console.log('Connected to Database')
-})
+mongoose.connect(MONGODB_URI, options)
