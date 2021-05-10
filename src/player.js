@@ -8,7 +8,7 @@ const basicAuth = require('./auth/basicAuth.js')
 const Account = require('./model/accounts.js')
 const Mongoose = require('./model/mongoose.js')
 let playerName;
-
+// const host = 'http://4eaf322577d9.ngrok.io';
 const host = 'http://localhost:3333';
 const socket = io.connect(host);
 const rl = readline.createInterface({
@@ -149,3 +149,5 @@ socket.on('clear', payload => {
 rl.on("close", () => {
 
 });
+
+

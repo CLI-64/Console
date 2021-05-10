@@ -6,7 +6,7 @@ const options = {
   useCreateIndex: true
 };
 
-mongoose.connect('mongodb://localhost:27017/cliaccounts', {
+mongoose.connect('mongodb+srv://jennercf:1234@cluster0.opm0b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
